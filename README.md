@@ -96,6 +96,11 @@ truffle migrate --reset --network rinkeby
 9. To deploy to another testnet, you'll have to update the truffle-config.js file with the appropriate testnet information.
 
 
+## Security
+
+To report a bug or security-related issue, please contact security@redbuildinggroup.com.
+
+
 ## Author
 
 👤 **TRBG**
