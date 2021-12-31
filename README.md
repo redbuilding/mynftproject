@@ -69,6 +69,32 @@ instance.name()
 ```
 
 
+## Deploy on the testnet Rinkeby
+
+1. To connect to the Ethereum network using a testnet like Rinkeby, you'll need an API from a provider like Infura.io. Enter the API key in the ENV file where noted.
+
+2. When using this smart contract for artwork, you'll need a storage solution like that offered on IPFS (example: Pinata.cloud), to store your image files and your image metadata files. Enter your metadata CID in the ENV file where noted.
+
+3. The owner of the contract will also need a wallet with test ETH. Use a faucet like that offered by Chainlink to receive test ETH:  https://faucets.chain.link/
+
+4. Enter the private key of the contract owner's wallet in the ENV file where noted.
+
+5. Change the ENV filename to:  .env
+
+⚠️ **Important**:  Do NOT share private key information. Do NOT upload your .env file to Github with private key information.
+
+6. Update the project name and symbol in the file:  contracts/MyNFTProject.sol
+
+7. If you have changed the contract name, update the contract name in the file:  migrations/2_mynftproject.js
+
+8. Deploy to Rinkeby.
+
+```sh
+truffle migrate --reset --network rinkeby
+```
+
+9. To deploy to another testnet, you'll have to update the truffle-config.js file with the appropriate testnet information.
+
 
 ## Author
 
