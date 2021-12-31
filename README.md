@@ -10,9 +10,65 @@
 
 ## Install
 
+1. Go to the project directory.
+
+```sh
+cd /projectdirectory
+```
+
+
+2. Install the project.
+
 ```sh
 npm install
 ```
+
+
+3. Install babel-register.
+
+```sh
+npm install babel-register
+```
+
+
+3. Start Ganache in a terminal window.
+
+```sh
+ganache-cli
+```
+
+
+4. Open a new terminal window and compile the contract to run on your local blockchain.
+
+```sh
+truffle migrate --reset --network development
+```
+
+
+5. Start Truffle console.
+
+```sh
+truffle console
+```
+
+
+6. Run tests. Example:
+
+```sh
+test ./test/test.js
+```
+
+Other test files are located in the 'test' folder.
+
+
+7. To test a single function, create an instance of the contract and run the function.
+
+```sh
+let instance = await MyNFTProject.deployed()
+instance.name()
+```
+
+
 
 ## Author
 
