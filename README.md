@@ -31,28 +31,30 @@ npm install babel-register
 ```
 
 
-3. Start Ganache in a terminal window.
+## Deploy on a local blockchain
+
+1. Start Ganache in a terminal window.
 
 ```sh
 ganache-cli
 ```
 
 
-4. Open a new terminal window and compile the contract to run on your local blockchain.
+2. Open a new terminal window and compile the contract to run on your local blockchain.
 
 ```sh
 truffle migrate --reset --network development
 ```
 
 
-5. Start Truffle console.
+3. Start Truffle console.
 
 ```sh
 truffle console
 ```
 
 
-6. Run tests. Example:
+4. Run tests. Example:
 
 ```sh
 test ./test/test.js
@@ -61,12 +63,22 @@ test ./test/test.js
 Other test files are located in the 'test' folder.
 
 
-7. To test a single function, create an instance of the contract and run the function.
+5. To test a single function, create an instance of the contract and run the function.
 
 ```sh
 let instance = await MyNFTProject.deployed()
 instance.name()
 ```
+
+Note: JS test files are designed to run individually, rather than all at once. Each file is focused on a specific area:
+
+* test.js - minting
+* test2.js - ownership
+* test3.js - supply
+* test4.js - state variables
+* test5.js - balances
+* test_oz.js - functions and events from OpenZeppelin standard contracts
+
 
 
 ## Deploy on the testnet Rinkeby
@@ -99,6 +111,16 @@ truffle migrate --reset --network rinkeby
 ## Security
 
 To report a bug or security-related issue, please contact security@redbuildinggroup.com.
+
+
+## Thank you
+
+Special thanks to the following organizations and companies for providing the knowledge to create this project, and for empowering industry advancements:
+
+* OpenZeppelin - https://openzeppelin.com/
+* Moralis Academy - https://academy.moralis.io/
+* DAPP University - https://www.dappuniversity.com/
+* Hashlips - https://hashlips.online/HashLips
 
 
 ## Author
