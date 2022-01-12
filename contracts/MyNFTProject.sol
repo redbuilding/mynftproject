@@ -130,22 +130,43 @@ contract MyNFTProject is ERC721, ERC721Enumerable, Pausable, Ownable, ERC721Burn
                 : "";
     }
 
-    /// @dev Function updating minting cost - available to owner
-    /// @param _newCost The cost of minting in wei
+    /**
+    * @dev Function updating minting cost - available to owner
+    * @param _newCost The cost of minting in wei
+    * Requirements:
+    *
+    * - the cost is greater than zero
+    */
     function setCost(uint256 _newCost) public onlyOwner {
+        require(_newCost > 0, "New cost entered is zero");
         cost = _newCost;
     }
 
-    /// @dev Function updating maximum minting amount per account - available to owner
-    /// @param _newmaxMintAmount The maximum mint amount per account
+    /**
+    * @dev Function updating maximum minting amount per account - available to owner
+    * @param _newmaxMintAmount The maximum mint amount per account
+    * Requirements:
+    *
+    * - the newmaxMintAmount is greater than zero
+    */
     function setmaxMintAmount(uint256 _newmaxMintAmount) public onlyOwner {
+        require(_newmaxMintAmount > 0, "Max mint amount entered is zero");
         maxMintAmount = _newmaxMintAmount;
     }
 
-    /// @dev Function updating maximum token supply - available to owner
-    /// @param _newmaxSupply The maximum supply of tokens
-    /// @notice This setting exists to accommodate potential future limited-run collections
+    /**
+    * @dev Function updating maximum token supply - available to owner
+    * @param _newmaxSupply The maximum supply of tokens
+    * @notice This setting exists to accommodate potential future limited-run collections
+    * Requirements:
+    *
+    * - the newmaxSupply is greater than zero
+    * - the newmaxSupply is greater than the current totalSupply
+    */
     function setmaxSupply(uint256 _newmaxSupply) public onlyOwner {
+        require(_newmaxSupply > 0, "Supply entered is zero");
+        uint256 supply = totalSupply();
+        require(_newmaxSupply > supply, "Supply entered is less than total supply");
         maxSupply = _newmaxSupply;
     }
 
@@ -176,13 +197,9 @@ contract MyNFTProject is ERC721, ERC721Enumerable, Pausable, Ownable, ERC721Burn
      * but did not want to activate functionality before all tokens were minted.
      */
     function burn(uint256 tokenId) public override {
-        if (funSetting == STATUS.ON) {
-            require(_isApprovedOrOwner(_msgSender(), tokenId), "ERC721Burnable: caller is not owner nor approved");
-            _burn(tokenId);
-        }
-        else {
-            revert("Burn not available");
-        }
+        require(funSetting == STATUS.ON, "Burn not available");
+        require(_isApprovedOrOwner(_msgSender(), tokenId), "ERC721Burnable: caller is not owner nor approved");
+        _burn(tokenId);
     }
 
 
