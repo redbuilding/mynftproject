@@ -21,6 +21,30 @@ contract("MyNFTProject", accounts => {
         console.log(result);
     })
 
+    it("should not set a new cost that is zero", async () => {
+        await truffleAssert.reverts(
+            mynft.setCost("0", {from: accounts[0]})
+        )
+    })
+
+    it("should not set a new maxMintAmount that is zero", async () => {
+        await truffleAssert.reverts(
+            mynft.setmaxMintAmount("0", {from: accounts[0]})
+        )
+    })
+
+    it("should not set a new maxSupply that is zero", async () => {
+        await truffleAssert.reverts(
+            mynft.setmaxSupply("0", {from: accounts[0]})
+        )
+    })
+
+    it("should not set a new maxSupply that is less than the current totalSupply", async () => {
+        await truffleAssert.reverts(
+            mynft.setmaxSupply("1", {from: accounts[0]})
+        )
+    })
+
     it("should set a new cost and print the result", async () => {
         await mynft.cost().then(result => console.log("Current: " + BigInt(result)))
         await mynft.setCost("90000000000000")

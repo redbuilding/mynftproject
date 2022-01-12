@@ -11,7 +11,7 @@ contract("MyNFTProject", accounts => {
 
     /* TEST ROUND 6: Openzeppelin functions & events
     *  When using this test, include this flag to show events: --show-events
-    *  Used when testing: 
+    *  Used when testing:
     *  Cost = 80000000000000 wei
     *  Max Supply = 10
     *  Max Mint Amount = 3
@@ -77,16 +77,16 @@ contract("MyNFTProject", accounts => {
         await mynft.totalSupply().then(result11 => console.log(BigInt(result11)))
     })
 
-    it("should show token ID 1 owned by account 0", async () => {
+    it("should show token ID 1 by index 0", async () => {
         await mynft.tokenByIndex("0").then(result12 => console.log(BigInt(result12)))
     })
 
-    it("should transfer ownership of contract to account 2", async () => {
+    it("should transfer ownership of contract to account 1", async () => {
         await mynft.transferOwnership(accounts[1])
         await mynft.owner().then(result13 => console.log(result13))
     })
 
-    it("should renounce ownership", async () => {
+    it("should renounce ownership and print the new owner", async () => {
         await mynft.renounceOwnership({from: accounts[1]})
         await mynft.owner().then(result14 => console.log(result14))
     })
