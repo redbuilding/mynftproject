@@ -110,6 +110,9 @@ contract MyNFTProject is ERC721, ERC721Enumerable, Pausable, Ownable, ERC721Burn
     * @dev Function returning string of a token's URI
     * @param tokenId ID of token
     * @return string Token's URI
+    * Requirements:
+    *
+    * - the tokenId must exist
     */
     function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
         require(
@@ -187,19 +190,50 @@ contract MyNFTProject is ERC721, ERC721Enumerable, Pausable, Ownable, ERC721Burn
     }
 
     /**
-     * @dev Burns `tokenId`. See {ERC721-_burn}.
-     *
-     * Requirements:
-     *
-     * - Function must be turned "on".
-     * - The caller must own `tokenId` or be an approved operator.
-     * @notice We wanted to include burn capability for a potential future application
-     * but did not want to activate functionality before all tokens were minted.
-     */
+    * @dev Burns `tokenId`. See {ERC721-_burn}.
+    * @param tokenId The token ID
+    * @notice We wanted to include burn capability for a potential future application
+    * but did not want to activate functionality before all tokens were minted.
+    * Requirements:
+    *
+    * - function must be turned "on"
+    * - The caller must own `tokenId` or be an approved operator
+    */
     function burn(uint256 tokenId) public override {
         require(funSetting == STATUS.ON, "Burn not available");
         require(_isApprovedOrOwner(_msgSender(), tokenId), "ERC721Burnable: caller is not owner nor approved");
         _burn(tokenId);
+    }
+
+    /**
+    * @dev Minting function - available to owner.
+    * @param to The address receiving the token
+    * @param tokenId The token ID
+    * @notice This is a failsafe function preserving the contract's ability to mint
+    * after burn function has been activated.
+    * Requirements:
+    *
+    * - function must be turned "on"
+    * - the contract is unpaused
+    * - the tokenId does not exist
+    * - the to address is not zero
+    * - the tokenId is not equal to zero
+    * - the mint amount does not exceed the allowable NFT limit per account
+    * - the mint amount does not exceed the max supply of tokens
+    */
+    function safeMint(address to, uint256 tokenId) public onlyOwner {
+        require(funSetting == STATUS.ON, "Safemint not available");
+        require(!paused(), "Contract is paused");
+        require(!_exists(tokenId), "ERC721: token already minted");
+        require(to != address(0), "ERC721: minted to the zero address");
+        require(tokenId > 0, "Token ID is zero");
+        require(balanceOf(msg.sender) <= 2, "Only 3 mints allowed per account");
+
+        uint256 mintNumber = 1;
+        uint256 supply = totalSupply();
+        require(supply + mintNumber <= maxSupply, "Mint amount exceeds the maximum supply");
+
+        _safeMint(to, tokenId, "");
     }
 
 
